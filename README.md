@@ -2,6 +2,8 @@
 
 Tamper-resistant, publisher-authoritative leaderboards on BSV.
 
+Demo this in the wild at: [PeerJump.fun](https://peerjump.fun)
+
 ## Overview
 
 LeaderLib combines:
