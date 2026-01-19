@@ -1,0 +1,39 @@
+{
+  "name": "@leaderlib/project",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Tamper-resistant, publisher-authoritative leaderboards on BSV",
+  "workspaces": [
+    "packages/*",
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "lars": "lars",
+    "cars": "cars",
+    "lars:config": "lars config",
+    "start": "lars start",
+    "build": "cars build 1",
+    "build:packages": "npm run build --workspaces",
+    "deploy": "cars deploy now 1",
+    "dev:signer": "npm run dev -w @leaderlib/server",
+    "dev:frontend": "npm run dev -w leaderlib-demo",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "clean": "rm -rf packages/*/dist backend/dist"
+  },
+  "keywords": [
+    "leaderboard",
+    "bsv",
+    "overlay",
+    "blockchain"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@bsv/cars-cli": "^1.1.4",
+    "@bsv/lars": "^1.5.3",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  }
+}

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+*.log
+.env
+.env.local
+.DS_Store
+coverage/
+local-data/
+cars_artifact_*.tgz
+frontend/build/assets

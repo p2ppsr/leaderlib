@@ -1,0 +1,36 @@
+{
+  "name": "leaderlib-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@bsv/sdk": "^1.6.20",
+    "@bsv/wallet-toolbox-client": "^1.6.27",
+    "@emotion/react": "^11.13.0",
+    "@emotion/styled": "^11.13.0",
+    "@leaderlib/client": "file:../packages/client",
+    "@leaderlib/core": "file:../packages/core",
+    "@mui/icons-material": "^5.16.4",
+    "@mui/material": "^5.16.7",
+    "@mui/system": "^5.16.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-toastify": "^10.0.5",
+    "use-async-effect": "^2.2.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2"
+  }
+}
