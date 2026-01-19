@@ -155,11 +155,6 @@ LeaderLib supports graduated trust tiers:
 - Overlay verifies against definition record
 - Recommended for most games
 
-### Tier 2 — Publisher-Hosted
-- Server publishes submissions directly
-- Full anti-cheat / normalization possible
-- Same on-chain format
-
 ## API Reference
 
 ### Client API
