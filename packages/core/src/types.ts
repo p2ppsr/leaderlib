@@ -128,9 +128,6 @@ export interface LeaderboardRules {
    */
   maxEntriesPerPlayer?: number
 
-  /** Whether anonymous submissions are allowed */
-  allowAnonymous?: boolean
-
   /** Additional custom metadata */
   metadata?: Record<string, unknown>
 }

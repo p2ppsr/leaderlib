@@ -26,8 +26,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Switch,
-  FormControlLabel,
   Divider,
   Grid,
   Alert,
@@ -127,7 +125,6 @@ const App: React.FC = () => {
   const [maxScore, setMaxScore] = useState('')
   const [minScore, setMinScore] = useState('')
   const [maxEntriesPerPlayer, setMaxEntriesPerPlayer] = useState('1')
-  const [allowAnonymous, setAllowAnonymous] = useState(false)
 
   // Initialize wallet and load leaderboards
   useAsyncEffect(async () => {
@@ -412,8 +409,7 @@ const App: React.FC = () => {
         sortOrder,
         maxScore: maxScore ? parseInt(maxScore, 10) : undefined,
         minScore: minScore ? parseInt(minScore, 10) : undefined,
-        maxEntriesPerPlayer: maxEntriesPerPlayer ? parseInt(maxEntriesPerPlayer, 10) : undefined,
-        allowAnonymous
+        maxEntriesPerPlayer: maxEntriesPerPlayer ? parseInt(maxEntriesPerPlayer, 10) : undefined
       }
 
       const { txid } = await admin.createLeaderboard(newLeaderboardId, rules)
@@ -429,7 +425,6 @@ const App: React.FC = () => {
       setMaxScore('')
       setMinScore('')
       setMaxEntriesPerPlayer('1')
-      setAllowAnonymous(false)
 
       // Reload leaderboards
       if (myIdentityKey) {
@@ -824,17 +819,6 @@ const App: React.FC = () => {
             </Grid>
           </Grid>
 
-          <Divider sx={{ my: 2 }} />
-
-          <FormControlLabel
-            control={
-              <Switch
-                checked={allowAnonymous}
-                onChange={(e) => setAllowAnonymous(e.target.checked)}
-              />
-            }
-            label="Allow anonymous submissions"
-          />
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
           <Button onClick={() => setCreateDialogOpen(false)}>Cancel</Button>

@@ -37,7 +37,6 @@ export interface LeaderboardRules {
   minScore?: number
   sortOrder?: 'asc' | 'desc'
   maxEntriesPerPlayer?: number
-  allowAnonymous?: boolean
   metadata?: Record<string, unknown>
 }
 
