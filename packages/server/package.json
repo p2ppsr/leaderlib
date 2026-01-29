@@ -1,6 +1,6 @@
 {
   "name": "@leaderlib/server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Publisher attestation signer server for LeaderLib",
   "main": "dist/index.js",
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@bsv/sdk": "^1.6.20",
-    "@leaderlib/core": "^0.1.0",
+    "@leaderlib/core": "^0.1.2",
     "express": "^4.18.2"
   },
   "devDependencies": {
