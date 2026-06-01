@@ -1,27 +1,25 @@
-# Use Node 22 Alpine base
 FROM node:22-alpine
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY packages/server/package*.json ./
+COPY package*.json ./
+COPY packages/core/package*.json ./packages/core/
+COPY packages/server/package*.json ./packages/server/
 
-# Install dependencies from npm (including @leaderlib/core from registry)
-RUN npm install
+RUN npm ci
 
-# Copy source code and tsconfig
-COPY packages/server/src ./src
-COPY packages/server/tsconfig.json ./
+COPY tsconfig.base.json ./
+COPY packages/core/tsconfig.json ./packages/core/
+COPY packages/core/src ./packages/core/src
+COPY packages/server/tsconfig.json ./packages/server/
+COPY packages/server/src ./packages/server/src
 
-# Build the server
-RUN npx tsc
+RUN npm run build -w @leaderlib/core && npm run build -w @leaderlib/server
 
-# Expose the API port
+WORKDIR /app/packages/server
+
 EXPOSE 8080
 
-# Set default port
 ENV PORT=8080
 
-# Start the server
 CMD ["node", "dist/server.js"]

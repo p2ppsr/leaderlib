@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: leaderlib-prod
+  labels:
+    app.kubernetes.io/name: leaderlib
+    app.kubernetes.io/part-of: leaderlib
+    environment: prod

@@ -1,0 +1,44 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: leaderlib-prod
+
+resources:
+  - namespace.yaml
+  - ../../base
+
+images:
+  - name: leaderlib
+    newName: registry.cars-operator-system.svc.cluster.local:5000/p2ppsr/leaderlib-server
+    newTag: local
+
+patches:
+  - target:
+      kind: Ingress
+      name: leaderlib
+    patch: |-
+      - op: replace
+        path: /spec/tls/0/hosts
+        value:
+          - peerjump-validator.babbage.systems
+      - op: replace
+        path: /spec/rules
+        value:
+          - host: peerjump-validator.babbage.systems
+            http:
+              paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: leaderlib
+                      port:
+                        number: 8080
+  - target:
+      kind: Certificate
+      name: leaderlib-tls
+    patch: |-
+      - op: replace
+        path: /spec/dnsNames
+        value:
+          - peerjump-validator.babbage.systems
