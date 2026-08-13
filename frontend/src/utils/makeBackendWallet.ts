@@ -5,10 +5,10 @@ import {
   WalletStorageManager,
   StorageClient,
   Services,
+  PrivilegedKeyManager,
   createDefaultWalletServicesOptions
 } from '@bsv/wallet-toolbox-client'
 import { WalletInterface, KeyDeriver, PrivateKey } from '@bsv/sdk'
-import { PrivilegedKeyManager } from '@bsv/wallet-toolbox-client/out/src/sdk'
 
 const walletServices: Map<Chain, Services | undefined> = new Map()
 const pendingInitializations: Map<Chain, Promise<Services>> = new Map()
