@@ -24,7 +24,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@bsv/sdk": "^1.6.20",
+    "@bsv/sdk": "^2.4.0",
     "@leaderlib/core": "0.1.2"
   },
   "devDependencies": {
