@@ -64,6 +64,8 @@ spec:
               drop:
                 - ALL
             runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
           readinessProbe:
             httpGet:
               path: /health
