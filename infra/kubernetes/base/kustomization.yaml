@@ -5,5 +5,4 @@ resources:
   - configmap.yaml
   - workload.yaml
   - service.yaml
-  - ingress.yaml
   - pdb.yaml

@@ -36,6 +36,14 @@ perl -0pi -e 's#newTag: [^\n]+#newTag: $ENV{IMAGE_TAG}#g' "${kustomization}"
 "${kubectl_cmd}" -n leaderlib-prod rollout status deployment/leaderlib --timeout=15m
 "${kubectl_cmd}" -n leaderlib-prod wait --for=condition=Ready certificate/leaderlib-tls --timeout=15m
 
+ready_nodes="$(${kubectl_cmd} -n leaderlib-prod get pods \
+  -l app.kubernetes.io/name=leaderlib,app.kubernetes.io/component=api \
+  -o jsonpath='{range .items[?(@.status.containerStatuses[0].ready==true)]}{.spec.nodeName}{"\n"}{end}' | sort -u | wc -l | tr -d ' ')"
+if [[ "${ready_nodes}" -lt 2 ]]; then
+  echo "LeaderLib rollout does not have two Ready pods on distinct nodes" >&2
+  exit 1
+fi
+
 "${kubectl_cmd}" -n leaderlib-prod run "leaderlib-smoke-$(date +%s)" \
   --quiet \
   --rm \
