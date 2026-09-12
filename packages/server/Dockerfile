@@ -22,6 +22,6 @@ EXPOSE 8080
 
 ENV PORT=8080
 
-USER node
+USER 1000:1000
 
 CMD ["node", "dist/server.js"]
