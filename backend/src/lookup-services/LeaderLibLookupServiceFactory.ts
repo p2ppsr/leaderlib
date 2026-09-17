@@ -22,11 +22,20 @@ import {
 } from './LeaderLibStorage.js'
 import docs from './LeaderLibLookupDocs.md.js'
 
-class LeaderLibLookupService implements LookupService {
+export class LeaderLibLookupService implements LookupService {
   readonly admissionMode: AdmissionMode = 'locking-script'
   readonly spendNotificationMode: SpendNotificationMode = 'none'
 
   constructor(public storage: LeaderLibStorage) { }
+
+  /**
+   * Returns the indexed definition record for in-process topic validation.
+   * LookupFormula only carries outpoints, so the topic manager cannot recover
+   * the publisher key from lookup() without making a circular HTTP request.
+   */
+  async getDefinitionRecord(leaderboardId: string): Promise<LeaderboardDefinitionRecord | null> {
+    return await this.storage.getDefinition(leaderboardId)
+  }
 
   async outputAdmittedByTopic(payload: OutputAdmittedByTopic): Promise<void> {
     if (payload.mode !== 'locking-script') throw new Error('Invalid payload mode')

@@ -9,6 +9,7 @@ import {
   LOOKUP_SERVICE_NAME
 } from '../core/index.js'
 import docs from './LeaderLibTopicDocs.md.js'
+import type { LeaderboardDefinitionRecord } from '../lookup-services/LeaderLibStorage.js'
 
 export interface LeaderLibTopicManagerOptions {
   allowOpenLeaderboards?: boolean
@@ -21,9 +22,13 @@ const defaultOptions: Required<LeaderLibTopicManagerOptions> = {
 // Create a verifier wallet for signature verification (can use 'anyone' as we only verify)
 const verifierWallet = new ProtoWallet('anyone')
 
+interface LeaderLibLookupService extends LookupService {
+  getDefinitionRecord?: (leaderboardId: string) => Promise<LeaderboardDefinitionRecord | null>
+}
+
 export default class LeaderLibTopicManager implements TopicManager {
   private lookupResolver: LookupResolver
-  private lookupService?: LookupService
+  private lookupService?: LeaderLibLookupService
 
   constructor(private readonly options: LeaderLibTopicManagerOptions = {}) {
     this.lookupResolver = new LookupResolver({
@@ -32,29 +37,21 @@ export default class LeaderLibTopicManager implements TopicManager {
   }
 
   setLookupService(lookupService: LookupService): void {
-    this.lookupService = lookupService
+    this.lookupService = lookupService as LeaderLibLookupService
   }
 
-  private async getLeaderboardDefinition(leaderboardId: string): Promise<LeaderboardDefinition | null> {
+  private async getLeaderboardDefinition(
+    leaderboardId: string
+  ): Promise<Pick<LeaderboardDefinition, 'publisherPubKey'> | null> {
     try {
       // Use the lookup service directly if available (same process)
-      if (this.lookupService) {
-        const result = await this.lookupService.lookup({
-          service: LOOKUP_SERVICE_NAME,
-          query: { getDefinition: { leaderboardId } }
-        })
-        if (result && Array.isArray(result) && result.length > 0) {
-          // Result contains output references, we need the actual definition data
-          // For now, return a minimal definition with just the pubkey
-          const resultAny = result as any
-          if (resultAny[0]?.publisherPubKey) {
-            return resultAny[0] as LeaderboardDefinition
-          }
-        }
-        return null
+      if (this.lookupService?.getDefinitionRecord) {
+        const definition = await this.lookupService.getDefinitionRecord(leaderboardId)
+        if (definition) return definition
       }
 
-      // Fall back to network lookup
+      // Fall back to a local overlay lookup when the injected service does not
+      // expose its definition storage (for example, in older host runtimes).
       const result = await this.lookupResolver.query({
         service: LOOKUP_SERVICE_NAME,
         query: { getDefinition: { leaderboardId } }
